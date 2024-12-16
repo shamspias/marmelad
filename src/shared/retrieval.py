@@ -28,15 +28,16 @@ def make_text_encoder(model: str) -> Embeddings:
     match provider:
         case "openai":
             from langchain_openai import OpenAIEmbeddings
-
             return OpenAIEmbeddings(model=model)
+
         case "cohere":
             from langchain_cohere import CohereEmbeddings
+            return CohereEmbeddings(model=model)
 
         case "ollama":
             from langchain_ollama import OllamaEmbeddings
             ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-            return OllamaEmbeddings(model=model, base_url=ollama_base_url)  # type: ignore
+            return OllamaEmbeddings(model=model, base_url=ollama_base_url)
 
         case _:
             raise ValueError(f"Unsupported embedding provider: {provider}")
