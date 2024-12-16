@@ -3,10 +3,10 @@
 **Marmelad** is an intelligent LangGraph-powered agent designed to assist with research, coding, and problem-solving
 across various domains.
 
-[![CI](https://github.com/langchain-ai/rag-research-agent-template/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/langchain-ai/rag-research-agent-template/actions/workflows/unit-tests.yml)
-[![Integration Tests](https://github.com/langchain-ai/rag-research-agent-template/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/langchain-ai/rag-research-agent-template/actions/workflows/integration-tests.yml)
+[![CI](https://github.com/shamspias/marmelad/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/shamspias/marmelad/actions/workflows/unit-tests.yml)
+[![Integration Tests](https://github.com/shamspias/marmelad/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/shamspias/marmelad/actions/workflows/integration-tests.yml)
 
-[![Open in - LangGraph Studio](https://img.shields.io/badge/Open_in-LangGraph_Studio-00324d.svg)](https://langgraph-studio.vercel.app/templates/open?githubUrl=https://github.com/shamspias/marmelad)
+[![Open in - LangGraph Studio](https://img.shields.io/badge/Open_in-LangGraph_Studio-00324d.svg)](https://studio.langchain.com/templates/open?githubUrl=https://github.com/shamspias/marmelad)
 
 ## What it does
 
