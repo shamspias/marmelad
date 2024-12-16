@@ -29,7 +29,10 @@ def make_text_encoder(model: str) -> Embeddings:
         case "cohere":
             from langchain_cohere import CohereEmbeddings
 
-            return CohereEmbeddings(model=model)  # type: ignore
+        case "ollama":
+            from langchain_ollama import OllamaEmbeddings
+            return OllamaEmbeddings(model=model)  # type: ignore
+
         case _:
             raise ValueError(f"Unsupported embedding provider: {provider}")
 
