@@ -6,15 +6,17 @@ Functions:
 """
 import logging
 import os
+from urllib.parse import urlparse
+
+import httpx
+from langchain.chat_models import init_chat_model
+from langchain_core.documents import Document
+from langchain_core.language_models import BaseChatModel
 
 try:
     from typing_extensions import Optional
 except ImportError:
     from typing import Optional
-
-from langchain.chat_models import init_chat_model
-from langchain_core.documents import Document
-from langchain_core.language_models import BaseChatModel
 
 logger = logging.getLogger(__name__)
 
@@ -135,9 +137,6 @@ def _get_proxy_clients():
     :return: A tuple of (http_client, http_async_client) where either or both could be None if no proxy is provided.
     """
     # Initialize variables for HTTP client and async client, defaults to None
-    import httpx
-    import os
-    from urllib.parse import urlparse
 
     http_client = None
     http_async_client = None
