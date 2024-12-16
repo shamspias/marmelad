@@ -1,7 +1,7 @@
 """Shared utility functions used in the project.
 
 Functions:
-    format_docs: Convert documents to an xml-formatted string.
+    format_docs: Convert documents to an XML-formatted string.
     load_chat_model: Load a chat model from a model name.
 """
 import logging
@@ -9,14 +9,15 @@ import os
 from urllib.parse import urlparse
 
 import httpx
-from langchain.chat_models import init_chat_model
-from langchain_core.documents import Document
-from langchain_core.language_models import BaseChatModel
 
 try:
     from typing_extensions import Optional
 except ImportError:
     from typing import Optional
+
+from langchain.chat_models import init_chat_model
+from langchain_core.documents import Document
+from langchain_core.language_models import BaseChatModel
 
 logger = logging.getLogger(__name__)
 
@@ -72,16 +73,18 @@ def format_docs(docs: Optional[list[Document]]) -> str:
 </documents>"""
 
 
-def load_chat_model(fully_specified_name: str, response_model_kwargs: Optional[dict] = None) -> BaseChatModel:
+def load_chat_model(
+        fully_specified_name: str,
+        response_model_kwargs: Optional[dict] = None
+) -> BaseChatModel:
     """Load a chat model from a fully specified name.
 
     Args:
-        fully_specified_name (str): String in the format 'provider/model'.
+        fully_specified_name (str): A string in the format 'provider/model'.
+        response_model_kwargs (Optional[dict]): Additional keyword arguments for the response model.
 
     Returns:
         BaseChatModel: An instance of the loaded chat model.
-        :param fully_specified_name:
-        :param response_model_kwargs:
     """
     http_client, http_async_client = _get_proxy_clients()
 
@@ -108,11 +111,10 @@ def load_chat_model(fully_specified_name: str, response_model_kwargs: Optional[d
         "model_provider": provider,
     }
     if not response_model_kwargs:
-        response_model_kwargs = {
-            "temperature": 0
-        }
+        response_model_kwargs = {"temperature": 0}
 
     common_params = {**base_common_params, **response_model_kwargs}
+
     if provider.lower() == "ollama":
         # Initialize the ChatOllama model with the correct base_url
         common_params["base_url"] = os.getenv("OLLAMA_BASE_URL")
@@ -132,12 +134,11 @@ def load_chat_model(fully_specified_name: str, response_model_kwargs: Optional[d
 
 
 def _get_proxy_clients():
-    """
-    Creates synchronous and asynchronous HTTP clients, with optional proxy configuration.
-    :return: A tuple of (http_client, http_async_client) where either or both could be None if no proxy is provided.
-    """
-    # Initialize variables for HTTP client and async client, defaults to None
+    """Create synchronous and asynchronous HTTP clients with optional proxy configuration.
 
+    Returns:
+        tuple: A tuple of (http_client, http_async_client) where either or both could be None if no proxy is provided.
+    """
     http_client = None
     http_async_client = None
 
@@ -150,39 +151,38 @@ def _get_proxy_clients():
             http_client = httpx.Client(proxies=proxy_url)
             http_async_client = httpx.AsyncClient(proxies=proxy_url)
         else:
-            logger.warn("Invalid proxy URL provided. Proceeding without proxy.")
+            logger.warning("Invalid proxy URL provided. Proceeding without proxy.")
 
     return http_client, http_async_client
 
 
 def create_service_with_proxy(service_class, model, **kwargs):
-    """
-    Creates an instance of a given service class, injecting proxy-aware HTTP clients if available.
+    """Create an instance of a given service class, injecting proxy-aware HTTP clients if available.
 
-    :param service_class: The service class you want to instantiate (e.g., OpenAIEmbeddings).
-    :param model: An object that contains model name.
-    :param kwargs: Additional keyword arguments to pass to the service class.
-    :return: An instance of the service class.
+    Args:
+        service_class: The service class to instantiate (e.g., OpenAIEmbeddings).
+        model: An object containing the model name.
+        **kwargs: Additional keyword arguments to pass to the service class.
+
+    Returns:
+        An instance of the service class.
     """
     # Get proxy clients
     http_client, http_async_client = _get_proxy_clients()
 
     # Inject HTTP client into the kwargs if a valid one exists
     if http_client:
-        kwargs['http_client'] = http_client
+        kwargs["http_client"] = http_client
     if http_async_client:
-        kwargs['http_async_client'] = http_async_client
+        kwargs["http_async_client"] = http_async_client
 
     base_url = os.getenv("PROXY_LLM_API_BASE_URL")
     api_key = os.getenv("PROXY_LLM_API_KEY")
 
     # Include API key and base URL if available
     if base_url and api_key:
-        kwargs['base_url'] = base_url
-        kwargs['api_key'] = api_key
+        kwargs["base_url"] = base_url
+        kwargs["api_key"] = api_key
 
     # Create and return the service class instance with all necessary arguments
-    return service_class(
-        model=model,
-        **kwargs
-    )
+    return service_class(model=model, **kwargs)
