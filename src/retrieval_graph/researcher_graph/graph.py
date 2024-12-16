@@ -5,9 +5,9 @@ which is responsible for generating search queries and retrieving relevant docum
 """
 
 try:
-    from typing_extensions import TypedDict
+    from typing_extensions import TypedDict, cast
 except ImportError:
-    from typing import TypedDict
+    from typing import TypedDict, cast
 
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnableConfig
