@@ -35,7 +35,8 @@ def make_text_encoder(model: str) -> Embeddings:
 
         case "ollama":
             from langchain_ollama import OllamaEmbeddings
-            return OllamaEmbeddings(model=model)  # type: ignore
+            ollama_base_url = os.getenv("OLLAMA_BASE_URL")
+            return OllamaEmbeddings(model=model, base_url=ollama_base_url)  # type: ignore
 
         case _:
             raise ValueError(f"Unsupported embedding provider: {provider}")
