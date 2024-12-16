@@ -4,7 +4,10 @@ This module defines the core structure and functionality of the researcher graph
 which is responsible for generating search queries and retrieving relevant documents.
 """
 
-from typing import TypedDict, cast
+try:
+    from typing_extensions import TypedDict
+except ImportError:
+    from typing import TypedDict
 
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnableConfig
@@ -18,7 +21,7 @@ from shared.utils import load_chat_model
 
 
 async def generate_queries(
-    state: ResearcherState, *, config: RunnableConfig
+        state: ResearcherState, *, config: RunnableConfig
 ) -> dict[str, list[str]]:
     """Generate search queries based on the question (a step in the research plan).
 
@@ -46,7 +49,7 @@ async def generate_queries(
 
 
 async def retrieve_documents(
-    state: QueryState, *, config: RunnableConfig
+        state: QueryState, *, config: RunnableConfig
 ) -> dict[str, list[Document]]:
     """Retrieve documents based on a given query.
 

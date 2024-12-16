@@ -1,7 +1,11 @@
 """This "graph" simply exposes an endpoint for a user to upload docs to be indexed."""
 
 import json
-from typing import Optional
+
+try:
+    from typing_extensions import Optional
+except ImportError:
+    from typing import Optional
 
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph import END, START, StateGraph
@@ -13,7 +17,7 @@ from shared.state import reduce_docs
 
 
 async def index_docs(
-    state: IndexState, *, config: Optional[RunnableConfig] = None
+        state: IndexState, *, config: Optional[RunnableConfig] = None
 ) -> dict[str, str]:
     """Asynchronously index documents in the given state using the configured retriever.
 

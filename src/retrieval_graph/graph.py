@@ -6,7 +6,10 @@ and key functions for processing & routing user queries, generating research pla
 conducting research, and formulating responses.
 """
 
-from typing import Any, Literal, TypedDict, cast
+try:
+    from typing_extensions import Any, Literal, TypedDict, cast
+except ImportError:
+    from typing import Any, Literal, TypedDict, cast
 
 from langchain_core.messages import BaseMessage
 from langchain_core.runnables import RunnableConfig
@@ -19,7 +22,7 @@ from shared.utils import format_docs, load_chat_model
 
 
 async def analyze_and_route_query(
-    state: AgentState, *, config: RunnableConfig
+        state: AgentState, *, config: RunnableConfig
 ) -> dict[str, Router]:
     """Analyze the user's query and determine the appropriate routing.
 
@@ -36,8 +39,8 @@ async def analyze_and_route_query(
     configuration = AgentConfiguration.from_runnable_config(config)
     model = load_chat_model(configuration.query_model)
     messages = [
-        {"role": "system", "content": configuration.router_system_prompt}
-    ] + state.messages
+                   {"role": "system", "content": configuration.router_system_prompt}
+               ] + state.messages
     response = cast(
         Router, await model.with_structured_output(Router).ainvoke(messages)
     )
@@ -45,7 +48,7 @@ async def analyze_and_route_query(
 
 
 def route_query(
-    state: AgentState,
+        state: AgentState,
 ) -> Literal["create_research_plan", "ask_for_more_info", "respond_to_general_query"]:
     """Determine the next step based on the query classification.
 
@@ -70,7 +73,7 @@ def route_query(
 
 
 async def ask_for_more_info(
-    state: AgentState, *, config: RunnableConfig
+        state: AgentState, *, config: RunnableConfig
 ) -> dict[str, list[BaseMessage]]:
     """Generate a response asking the user for more information.
 
@@ -94,7 +97,7 @@ async def ask_for_more_info(
 
 
 async def respond_to_general_query(
-    state: AgentState, *, config: RunnableConfig
+        state: AgentState, *, config: RunnableConfig
 ) -> dict[str, list[BaseMessage]]:
     """Generate a response to a general query not related to LangChain.
 
@@ -118,7 +121,7 @@ async def respond_to_general_query(
 
 
 async def create_research_plan(
-    state: AgentState, *, config: RunnableConfig
+        state: AgentState, *, config: RunnableConfig
 ) -> dict[str, list[str] | str]:
     """Create a step-by-step research plan for answering a LangChain-related query.
 
@@ -138,8 +141,8 @@ async def create_research_plan(
     configuration = AgentConfiguration.from_runnable_config(config)
     model = load_chat_model(configuration.query_model).with_structured_output(Plan)
     messages = [
-        {"role": "system", "content": configuration.research_plan_system_prompt}
-    ] + state.messages
+                   {"role": "system", "content": configuration.research_plan_system_prompt}
+               ] + state.messages
     response = cast(Plan, await model.ainvoke(messages))
     return {"steps": response["steps"], "documents": "delete"}
 
@@ -184,7 +187,7 @@ def check_finished(state: AgentState) -> Literal["respond", "conduct_research"]:
 
 
 async def respond(
-    state: AgentState, *, config: RunnableConfig
+        state: AgentState, *, config: RunnableConfig
 ) -> dict[str, list[BaseMessage]]:
     """Generate a final response to the user's query based on the conducted research.
 

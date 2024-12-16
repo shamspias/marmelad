@@ -6,7 +6,11 @@ Functions:
 """
 import logging
 import os
-from typing import Optional
+
+try:
+    from typing_extensions import Optional
+except ImportError:
+    from typing import Optional
 
 from langchain.chat_models import init_chat_model
 from langchain_core.documents import Document

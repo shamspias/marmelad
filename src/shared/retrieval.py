@@ -6,7 +6,11 @@ vector store backends, specifically Elasticsearch, Pinecone, and MongoDB.
 
 import os
 from contextlib import contextmanager
-from typing import Generator
+
+try:
+    from typing_extensions import Generator
+except ImportError:
+    from typing import Generator
 
 from langchain_core.embeddings import Embeddings
 from langchain_core.runnables import RunnableConfig

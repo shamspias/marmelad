@@ -1,7 +1,11 @@
 """State management for the index graph."""
 
 from dataclasses import dataclass
-from typing import Annotated
+
+try:
+    from typing_extensions import Annotated
+except ImportError:
+    from typing import Annotated
 
 from langchain_core.documents import Document
 

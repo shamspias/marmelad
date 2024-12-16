@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Annotated
+
+try:
+    from typing_extensions import Annotated
+except ImportError:
+    from typing import Annotated
 
 from retrieval_graph import prompts
 from shared.configuration import BaseConfiguration

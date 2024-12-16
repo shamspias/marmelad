@@ -2,7 +2,11 @@
 
 import hashlib
 import uuid
-from typing import Any, Literal, Optional, Union
+
+try:
+    from typing_extensions import Any, Literal, Optional, Union
+except ImportError:
+    from typing import Any, Literal, Optional, Union
 
 from langchain_core.documents import Document
 
@@ -14,14 +18,14 @@ def _generate_uuid(page_content: str) -> str:
 
 
 def reduce_docs(
-    existing: Optional[list[Document]],
-    new: Union[
-        list[Document],
-        list[dict[str, Any]],
-        list[str],
-        str,
-        Literal["delete"],
-    ],
+        existing: Optional[list[Document]],
+        new: Union[
+            list[Document],
+            list[dict[str, Any]],
+            list[str],
+            str,
+            Literal["delete"],
+        ],
 ) -> list[Document]:
     """Reduce and process documents based on the input type.
 
