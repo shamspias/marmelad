@@ -27,7 +27,7 @@ class BaseConfiguration:
     )
 
     retriever_provider: Annotated[
-        Literal["elastic-local", "elastic", "pinecone", "mongodb"],
+        Literal["pgvector", "elastic-local", "elastic", "pinecone", "mongodb"],
         {"__template_metadata__": {"kind": "retriever"}},
     ] = field(
         default="elastic-local",
@@ -45,7 +45,7 @@ class BaseConfiguration:
 
     @classmethod
     def from_runnable_config(
-        cls: Type[T], config: Optional[RunnableConfig] = None
+            cls: Type[T], config: Optional[RunnableConfig] = None
     ) -> T:
         """Create an IndexConfiguration instance from a RunnableConfig object.
 
