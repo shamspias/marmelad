@@ -23,6 +23,8 @@ dependencies = [
     "langchain-ollama>=0.2.0",
     "langchain-xai",
     "httpx[socks]>=0.27.2,<0.28.0",
+    #    "gigachat>=0.1.35",
+    #    "langchain-community>=0.3.2",
 ]
 
 [project.optional-dependencies]
