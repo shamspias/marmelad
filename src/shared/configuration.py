@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field, fields
-from typing import Annotated, Any, Literal, Optional, Type, TypeVar
+
+try:
+    from typing_extensions import Annotated, Any, Literal, Optional, Type, TypeVar
+except ImportError:
+    from typing import Annotated, Any, Literal, Optional, Type, TypeVar
 
 from langchain_core.runnables import RunnableConfig, ensure_config
 

@@ -105,7 +105,12 @@ def make_pgvector_retriever(
 ) -> Generator[VectorStoreRetriever, None, None]:
     """Configure this agent to connect to a pgvector index."""
     import json
-    from typing import Any, List, Tuple
+
+    try:
+        from typing_extensions import Any, List, Tuple
+    except ImportError:
+        from typing import Any, List, Tuple
+
     from langchain_postgres.vectorstores import PGVector as OverPGVector
     from langchain_core.documents import Document
 

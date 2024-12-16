@@ -1,6 +1,10 @@
 import os
 from contextlib import contextmanager
-from typing import Generator
+
+try:
+    from typing_extensions import Generator
+except ImportError:
+    from typing import Generator
 
 import pytest
 from langchain_core.runnables import RunnableConfig
@@ -15,7 +19,7 @@ from shared.retrieval import make_text_encoder
 
 @contextmanager
 def make_elastic_vectorstore(
-    configuration: BaseConfiguration,
+        configuration: BaseConfiguration,
 ) -> Generator[VectorStore, None, None]:
     """Configure this agent to connect to a specific elastic index."""
     from langchain_elasticsearch import ElasticsearchStore

@@ -4,7 +4,11 @@ This module defines the state structures used in the researcher graph.
 """
 
 from dataclasses import dataclass, field
-from typing import Annotated
+
+try:
+    from typing_extensions import Annotated
+except ImportError:
+    from typing import Annotated
 
 from langchain_core.documents import Document
 
