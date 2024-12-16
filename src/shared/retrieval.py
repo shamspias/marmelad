@@ -174,18 +174,18 @@ def make_pgvector_retriever(
 
     # Safely access search_kwargs and user_id to ensure they exist
     search_kwargs = getattr(configuration, 'search_kwargs', {})
-    user_id = getattr(configuration, 'user_id', None)
-
-    # Validate user_id to ensure it is provided and valid
-    if not user_id:
-        raise ValueError("Please provide a valid user_id in the configuration.")
-
-    # Safely handle the 'filter' key in search_kwargs
-    metadata_filter = search_kwargs.get('filter', {})
-    metadata_filter['user_id'] = {'$eq': user_id}
-
-    # Update the 'filter' back into search_kwargs if it was newly created or modified
-    search_kwargs['filter'] = metadata_filter
+    # user_id = getattr(configuration, 'user_id', None)
+    #
+    # # Validate user_id to ensure it is provided and valid
+    # if not user_id:
+    #     raise ValueError("Please provide a valid user_id in the configuration.")
+    #
+    # # Safely handle the 'filter' key in search_kwargs
+    # metadata_filter = search_kwargs.get('filter', {})
+    # metadata_filter['user_id'] = {'$eq': user_id}
+    #
+    # # Update the 'filter' back into search_kwargs if it was newly created or modified
+    # search_kwargs['filter'] = metadata_filter
 
     # Yield the retriever with updated search_kwargs
     yield vstore.as_retriever(search_kwargs=search_kwargs)
